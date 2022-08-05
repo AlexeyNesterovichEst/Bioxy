@@ -44,4 +44,4 @@ if(st.button('Submit')):
     if seq_i != -1:
         n,d1,d2 = partial(1)
         if data[seq_i-n].isupper() == True:
-            st.success('gene_seq')
+            st.success('gene_sequence')
