@@ -1,5 +1,4 @@
 import streamlit as st
-import Bio
 from Bio import Entrez, SeqIO
 import requests, sys #
 #import json
