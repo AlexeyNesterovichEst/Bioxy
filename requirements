@@ -1,4 +1,4 @@
-biopython
+biopython==1.79
 streamlit==1.11.1
 requests==2.28.1
 sys
