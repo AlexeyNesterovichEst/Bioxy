@@ -1,7 +1,9 @@
 import streamlit as st
+import numpy as np
+import requests
 import pydna
 from Bio import Entrez, SeqIO
-import requests, sys #
+import sys #
 #import json
 
 #  + Human Deleted in malignant brain tumors 1 sequence
