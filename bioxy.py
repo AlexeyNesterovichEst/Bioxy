@@ -58,7 +58,7 @@ def partial(n):
   return n,d1,d2
 
 def gene_term_quiry(tax,gene):
-    a_tax = [["Homo sapiens","human"], ["Oryctolagus cuniculus","rabbit"],["Mus","Mus musculus", "mouse"]]
+    a_tax = [["Homo sapiens","human"], ["Oryctolagus cuniculus","rabbit"],["Mus musculus", "mouse"]]
     gene_term = ""
     for i in a_tax:
         if i[0] == tax or i[1] == tax:
