@@ -27,10 +27,11 @@ if option == "Sequence": # search by name, GenBank accession number
     c2.write("[GenBank accession number] (start-end) protein sequence")
     c2.markdown("*Example: NP_066386.3 1-10 protein sequence*")
     
-    c3 = st.container()
-    c3.subheader("Gene coding sequence")
-    c3.write("[GenBank accession number] (start-end) gene coding sequence") # check start_end
-    c3.markdown("*Example: AY522506.1 1-10 accession coding sequence*") 
+    
+    #c3 = st.container()
+    #c3.subheader("Gene coding sequence")
+    #c3.write("[GenBank accession number] (start-end) gene coding sequence") # check start_end
+    #c3.markdown("*Example: AY522506.1 1-10 accession coding sequence*") 
     
     c4 = st.container()
     c4.subheader("Protein coding sequence")
