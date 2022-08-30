@@ -16,7 +16,7 @@ if option == "Sequence": # search by name, GenBank accession number
     #c1.markdown("*Example: human Dmbt1 1-100 gene sequence*")
     #c1.text("")
     c1.write("[GenBank accession number] (start-end) accession sequence")
-    c1.markdown("*Example: AY522506.1 1-10 accession sequence*")
+    c1.markdown("*Example: NM_021048.5 1-10 accession sequence*")
     
 # improve 
     c2 = st.container()
@@ -31,7 +31,7 @@ if option == "Sequence": # search by name, GenBank accession number
     #c3 = st.container()
     #c3.subheader("Gene coding sequence")
     #c3.write("[GenBank accession number] (start-end) gene coding sequence") # check start_end
-    #c3.markdown("*Example: AY522506.1 1-10 accession coding sequence*") 
+    #c3.markdown("*Example: NM_021048.5 1-10 accession coding sequence*") 
     
     c4 = st.container()
     c4.subheader("Protein coding sequence")
