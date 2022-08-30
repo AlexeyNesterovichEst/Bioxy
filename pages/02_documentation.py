@@ -35,7 +35,7 @@ if option == "Sequence": # search by name, GenBank accession number
     c4 = st.container()
     c4.subheader("Protein coding sequence")
     c4.write("[GenBank accession number] (start-end) protein coding sequence")
-    c4.markdown("*Example: human NP_066386.3 1-10 protein coding sequence*")
+    c4.markdown("*Example: NP_066386.3 1-10 protein coding sequence*")
 
 # develop [GenBank accession number] (start-end) primers
 if option == "Primers":
