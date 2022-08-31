@@ -387,7 +387,6 @@ if(st.button('Submit')):
                   prot = prot[:-1]
                 protein = ' '.join(prot)
                 prot_term,tax_sci = prot_term_query(tax,protein)
-                st.success(prot_term)
                 ncbiprot_seq(prot_term,tax_sci,d1,d2,"seq")
     elif prim_i != -1: #synchronise
         st.success("primers")
