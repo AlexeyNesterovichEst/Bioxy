@@ -70,12 +70,17 @@ def gene_term_quiry(tax,gene):
 def gene_seq(gene_term,tax_sci,d1,d2,opt):
   Entrez.tool = 'Essequery'
   Entrez.email = ''
-  h_search = Entrez.esearch(db="nucleotide", term=gene_term, retmax=100, api_key = "7c824eac4588c5996739d4a6c136c3f5d808")
+  h_search = Entrez.esearch(db="nucleotide", term=gene_term, retmax=20, sort = "relevance", api_key = "7c824eac4588c5996739d4a6c136c3f5d808")
   records = Entrez.read(h_search)
   h_search.close()
   identifiers = list(records['IdList'])
   #query_list = [] # (no synthetic-<synthetic) gene complete -> mRNA complete -> gene -> mRNA
   num = 0
+  if len(identifiers) == 0:
+      st.warning("NCBI first 20 results do not match")
+      prot_plus = "+".join(prot)
+      link = "https://www.ncbi.nlm.nih.gov/nuccore/?term=%s+%s" % (tax,prot_plus)
+      html_string = '<a href="%s"><img alt="" src="https://serratus.io/ncbi.png" width="100" ></a>' % link
   for i in identifiers[::-1]:
         percent = round(num/len(identifiers)*100)
         with st.spinner('Filtering NCBI nucleotide results (%s %%)' % percent):
@@ -219,11 +224,16 @@ def uniprot_seq(protein,tax_id):
 def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
   Entrez.tool = 'Essequery'
   Entrez.email = ''
-  h_search = Entrez.esearch(db="protein", term=prot_term, retmax=100)
+  h_search = Entrez.esearch(db="protein", term=prot_term, retmax=20,sort = "relevance",api_key = "7c824eac4588c5996739d4a6c136c3f5d808")
   records = Entrez.read(h_search)
   h_search.close()
   identifiers = list(records['IdList'])
   num = 0
+  if len(identifiers) == 0:
+      st.warning("NCBI first 20 results do not match")
+      prot_plus = "+".join(prot)
+      link = "https://www.ncbi.nlm.nih.gov/protein/?term=%s+%s" % (tax,prot_plus)
+      html_string = '<a href="%s"><img alt="" src="https://serratus.io/ncbi.png" width="100" ></a>' % link
   for i in identifiers[::-1]:
         percent = round(num/len(identifiers)*100)
         with st.spinner('Filtering NCBI protein results (%s %%)' % percent):
