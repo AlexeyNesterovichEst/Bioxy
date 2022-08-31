@@ -81,7 +81,8 @@ def gene_seq(gene_term,tax_sci,d1,d2,opt):
       prot_plus = "+".join(prot)
       link = "https://www.ncbi.nlm.nih.gov/nuccore/?term=%s+%s" % (tax,prot_plus)
       html_string = '<a href="%s"><img alt="" src="https://serratus.io/ncbi.png" width="100" ></a>' % link
-  for i in identifiers[::-1]:
+      st.markdown(html_string, unsafe_allow_html=True)
+  for i in identifiers:
         percent = round(num/len(identifiers)*100)
         with st.spinner('Filtering NCBI nucleotide results (%s %%)' % percent):
             num += 1
@@ -181,6 +182,7 @@ def prot_term_query(tax,prot):
     prot_term = ""
     for i in a_tax:
         if i[0] == tax or i[1] == tax:
+            #tax_term = '(%s [Organism] OR %s [All Fields]) AND ' % (i[0],i[1])
             tax_term = '(%s [Organism] OR %s [All Fields]) AND ' % (i[0],i[1])
             tax_sci = i[0]
             prot_term = tax_term + prot + "[Protein Name]"
@@ -224,7 +226,7 @@ def uniprot_seq(protein,tax_id):
 def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
   Entrez.tool = 'Essequery'
   Entrez.email = ''
-  h_search = Entrez.esearch(db="protein", term=prot_term, retmax=20,sort = "relevance",api_key = "7c824eac4588c5996739d4a6c136c3f5d808")
+  h_search = Entrez.esearch(db="protein", term=prot_term, retmax=20,sort = "relevance")
   records = Entrez.read(h_search)
   h_search.close()
   identifiers = list(records['IdList'])
@@ -234,7 +236,7 @@ def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
       prot_plus = "+".join(prot)
       link = "https://www.ncbi.nlm.nih.gov/protein/?term=%s+%s" % (tax,prot_plus)
       html_string = '<a href="%s"><img alt="" src="https://serratus.io/ncbi.png" width="100" ></a>' % link
-  for i in identifiers[::-1]:
+  for i in identifiers:
         percent = round(num/len(identifiers)*100)
         with st.spinner('Filtering NCBI protein results (%s %%)' % percent):
             num += 1
@@ -244,7 +246,7 @@ def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
             s = recs[0].seq
             source = "Genbank Accession no %s" % recs[0].id
             if opt == "seq":
-                if v.find(tax_sci.lower()) != -1 and v.find(protein.lower()) != -1:
+                if (v.find(tax_sci.lower()) != -1 or v.find(tax.lower()) != -1) and v.find(protein.lower()) != -1:
                     if d1 != "" and d2 != "":
                          s = s[int(d1):int(d2)+1]
                     with tab1:
@@ -385,67 +387,12 @@ if(st.button('Submit')):
                   prot = prot[:-1]
                 protein = ' '.join(prot)
                 prot_term,tax_sci = prot_term_query(tax,protein)
-                
+                st.success(prot_term)
                 ncbiprot_seq(prot_term,tax_sci,d1,d2,"seq")
     elif prim_i != -1: #synchronise
-        n,d1,d2 = partial(1)
-        if data[seq_i-n].isupper() == True:
-            gene = data[seq_i-n] #
-            s = gene_seq(gene,tax)
-            if d1 != "" and d2 != "":
-                s = s[int(d1)-1:int(d2)+1]
-            # def primers
-            dna=Dseqrecord(s)
-            ampl = primer_design(dna, target_tm=55.0)
-            #if prim_i + 1 == for_i:
-                #st.success("for")
-            with tab1:
-                st.code(ampl.forward_primer.seq)
-                st.code(ampl.reverse_primer.seq)
-            with tab2:
-                st.success("%s %s sequence" % (tax,data[seq_i-n]))
-                st.code(s)
-                st.success("forward primer of %s %s" % (tax,data[seq_i-n])) # add temperature
-                st.code(ampl.forward_primer.seq)
-                st.success("reverse primer of %s %s" % (tax,data[seq_i-n])) # add temperature
-                st.code(ampl.reverse_primer.seq)
-            with tab3:
-                st.write("%s %s (NCBI Resource Coordinators, 2016) primers are %s and %s." 
-                         % (tax,data[seq_i-n], ampl.forward_primer.seq, ampl.reverse_primer.seq))
-        else:
-            prot = prot_name('primers',1) #
-            prot_s = ' '.join(prot)
-            if d1 != "" and d2 != "": #
-                prot = prot[:-1] # 
-            protein = ' '.join(prot) #
-            s,gene = prot_gene_seq(protein,tax_id,tax)
-            if d1 != "" and d2 != "":
-              if d1 == "1":
-                 s = s[:(int(d2)*3)]
-              else:
-                 s = s[((int(d1)-1)*3):(int(d2)*3)]
-              d1_d2 = d1+ "-" + d2
-            else:
-                d1_d2 = ""
-            # def primers
-            dna=Dseqrecord(s)
-            ampl = primer_design(dna, target_tm=55.0)
-            #if prim_i + 1 == for_i:
-               #st.success("for")
-            with tab1:
-                st.code(ampl.forward_primer.seq)
-                st.code(ampl.reverse_primer.seq)
-            with tab2:
-                st.success("%s %s %s coding sequence " % (tax,protein,d1_d2))
-                st.code(s)            
-                st.success("forward primer of %s %s %s" % (tax,protein,d1_d2)) # add temperature
-                st.code(ampl.forward_primer.seq)
-                st.success("reverse primer of %s %s %s" % (tax,protein,d1_d2)) # add temperature
-                st.code(ampl.reverse_primer.seq)
-            with tab3:
-                st.write("%s %s coding gene is %s with coding sequence %s (UniProt Consortium, 2021; NCBI Resource Coordinators ,2016)." % (tax.capitalize(),prot_s,gene,s))
-                st.write("%s %s (NCBI Resource Coordinators, 2016) primers are %s and %s." 
-                         % (tax.capitalize(),gene, ampl.forward_primer.seq, ampl.reverse_primer.seq))
+        st.success("primers")
+        if  data[prim_i-1] == "protein":
+            st.success("protein primers")
             
     else:
         st.error("No result")
