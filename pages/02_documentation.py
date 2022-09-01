@@ -47,12 +47,12 @@ if option == "Primers":
     
     c5 = st.container()
     c5.subheader("Protein coding sequence primers")
-    c5.write("[GenBank accession number] (start-end) primers")
+    c5.write("[GenBank accession number] (start-end) protein primers")
     c5.markdown("*Example: NP_066386.3 1-10 protein primers*")
     
     c6 = st.container()
     c6.subheader("Protein coding sequence primers with restriction sites")
-    c6.write("[GenBank accession number] (start-end) primers with [restrictase 1] (and restrictase 2) (,overhang)")
+    c6.write("[GenBank accession number] (start-end) primers with [restrictase 1] (and restrictase 2)")
     c6.markdown("*Example: NP_066386.3 1-10 protein primers with Acc65I and HindIII and 4*")
     
 if option == "Restriction":
