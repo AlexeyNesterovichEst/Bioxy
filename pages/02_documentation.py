@@ -15,10 +15,10 @@ if option == "Sequence": # search by name, GenBank accession number
     #c1.write("[taxon] [Gene name] (start-end) gene sequence")
     #c1.markdown("*Example: human Dmbt1 1-100 gene sequence*")
     #c1.text("")
-    c1.write("[GenBank accession number] (start-end) accession sequence")
-    c1.markdown("*Example: NM_021048.5 1-10 accession sequence*")
+    c1.write("[GenBank accession number] (start-end) gene sequence")
+    c1.markdown("*Example: NM_021048.5 1-10 gene sequence*")
     
-# improve 
+ 
     c2 = st.container()
     c2.subheader("Protein sequence")
     c2.write("[taxon] [Protein name] (start-end) protein sequence")
@@ -40,16 +40,20 @@ if option == "Sequence": # search by name, GenBank accession number
 
 # develop [GenBank accession number] (start-end) primers
 if option == "Primers":
-    st.info("In progress")
     #c4 = st.container()
     #c4.subheader("Gene primers")
     #c4.write("[taxon] [GENE NAME] (start-end) primers")
     #c4.markdown("*Example: human DMBT1 1-100 primers*")
     
-    #c5 = st.container()
-    #c5.subheader("Protein coding sequence primers")
-    #c5.write("[taxon] [Protein name] (start-end) primers")
-    #c5.markdown("*Example: human Deleted in malignant tumor 1 1-100 primers*")
+    c5 = st.container()
+    c5.subheader("Protein coding sequence primers")
+    c5.write("[GenBank accession number] (start-end) primers")
+    c5.markdown("*Example: NP_066386.3 1-10 protein primers*")
+    
+    c6 = st.container()
+    c6.subheader("Protein coding sequence primers with restriction sites")
+    c6.write("[GenBank accession number] (start-end) primers with [restrictase 1] (and restrictase 2) (,overhang)")
+    c6.markdown("*Example: NP_066386.3 1-10 protein primers with Acc65I and HindIII and 4*")
     
 if option == "Restriction":
     st.info("In progress")
