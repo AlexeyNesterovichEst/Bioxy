@@ -63,7 +63,7 @@ if option == "Restriction":
     
     c8 = st.container()
     c8.subheader("Protein coding sequence specific restrictases with sites")
-    c8.write("[GenBank accession number] (start-end) protein restriction with (restrictase 1) , ... , (restrictase n)")
+    c8.write("[GenBank accession number] (start-end) protein restriction with [restrictase 1] (, ... , restrictase n)")
     c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
     
 if option == "Cloning":
