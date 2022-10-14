@@ -47,16 +47,24 @@ if option == "Primers":
     
     c5 = st.container()
     c5.subheader("Protein coding sequence primers")
-    c5.write("[GenBank accession number] (start-end) protein primers")
+    c5.write("[GenBank accession number] (start-end) primers")
     c5.markdown("*Example: NP_066386.3 1-10 protein primers*")
     
     c6 = st.container()
     c6.subheader("Protein coding sequence primers with restriction sites")
-    c6.write("[GenBank accession number] (start-end) protein primers with [restrictase 1] (and restrictase 2)")
+    c6.write("[GenBank accession number] (start-end) primers with [restrictase 1] (and restrictase 2)")
     c6.markdown("*Example: NP_066386.3 1-10 protein primers with Acc65I and HindIII*")
     
 if option == "Restriction":
-    st.info("In progress")
+    c7 = st.container()
+    c7.subheader("Protein coding sequence all restrictases with sites")
+    c7.write("[GenBank accession number] (start-end) protein restriction")
+    c7.markdown("*Example: NP_066386.3 1-100 protein restriction*")
+    
+    c8 = st.container()
+    c8.subheader("Protein coding sequence specific restrictases with sites")
+    c8.write("[GenBank accession number] (start-end) protein restriction with (restrictase 1) , ... , (restrictase n)")
+    c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
     
 if option == "Cloning":
     st.info("In progress")
