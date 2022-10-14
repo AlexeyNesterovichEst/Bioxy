@@ -8,6 +8,7 @@ from pydna import tm
 from pydna.design import primer_design
 from Bio.Seq import Seq
 from Bio.Restriction import *
+import itertools
 
 
 # combine gene and prot_term_query
@@ -309,7 +310,6 @@ def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
                     #acc = data[seq_i-n] 
                 #else:
                     #acc = data[seq_i-n-3] 
-                gene = ""
                      #s = s[((int(d1)-1)*3):(int(d2)*3)]
                 gene_seq(gene_acc,"",d1,d2,"prot_cds") #acc_cds # d1,d2
             elif opt == "primer":
@@ -368,7 +368,89 @@ def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt):
                 st.code(fp_e)
                 st.success("reverse primer with %s site" % e1)
                 st.code(rp_e)
-
+            elif opt == "over_primer":
+                handle = Entrez.efetch(db="protein", id=recs[0].id,rettype="gb")
+                seq_record = SeqIO.read(handle, "genbank")
+                seqAnn = seq_record.annotations
+                gene_acc = seqAnn['db_source'] #test different proteins
+                gene_acc_split = gene_acc.split()
+                gene_acc = gene_acc_split[-1]
+                dna = gene_seq(gene_acc,"",d1,d2,"primer")
+                t=Dseqrecord(dna)
+                ampl = primer_design(t, target_tm=55.0)
+                and_i = try_except("and",data)
+                if and_i != -1:
+                    e1 = data[and_i+1]
+                    e2 = data[and_i-1]
+                else:
+                    e1 = data[prim_i+2]
+                    e2 = e1
+                re_s = eval(e1+ ".site")
+                fe_s = eval(e2+".site")
+                DNA = dna.upper()
+                st.success(DNA)
+                Reverse_DNA = DNA[::-1]
+                overhang_size = 4 # take from text
+                overhang_parts = ["A","T", "G", "C"]
+                perm = itertools.product(overhang_parts, repeat=4)
+                num_seq = []
+                
+                for i in list(perm):
+                    j = "".join(i)
+                    n = DNA.count(j)
+                    n_r = Reverse_DNA.count(j)
+                    a = [n+n_r,j]
+                    num_seq.append(a)
+                    #print(j,":",n+n_r,"(",n,"+",n_r,")")
+                
+                num_seq.sort(key=lambda x: int(x[0]))
+                st.success(num_seq)
+                nucl_n = 0
+                st.success(num_seq[0])
+                rp_e = re_s + ampl.reverse_primer.seq
+                fp_e = fe_s + ampl.forward_primer.seq
+                # 4 different and 4th different from first of rp_e and fp_e
+                for i in num_seq: 
+                    st.success(i[1])
+                    for nucl in overhang_parts:
+                        nucl_c = i[1].count(nucl)
+                        if nucl_c > nucl_n:
+                            nucl_n = nucl_c
+                            st.success(nucl_n)
+                    if nucl_n == 1:
+                        overhang = i[1]
+                        orp_e = overhang + re_s + ampl.reverse_primer.seq
+                        ofp_e = overhang + fe_s + ampl.forward_primer.seq
+                        st.success("forward primer with %s site" % e2)
+                        st.code(fp_e)
+                        st.success("reverse primer with %s site" % e1)
+                        st.code(rp_e)
+                        break
+                    nucl_n = 0
+            elif opt == "res_all" or "res":
+                handle = Entrez.efetch(db="protein", id=recs[0].id,rettype="gb")
+                seq_record = SeqIO.read(handle, "genbank")
+                seqAnn = seq_record.annotations
+                gene_acc = seqAnn['db_source'] #test different proteins
+                gene_acc_split = gene_acc.split()
+                gene_acc = gene_acc_split[-1]
+                dna = gene_seq(gene_acc,"",d1,d2,"primer")
+                t= Seq(dna)
+                if opt == "res":
+                    with_i = try_except("with",data)
+                    coma_i = try_except(",",data)
+                    if coma_i == -1:
+                        rb = RestrictionBatch(data[with_i+1])
+                    else:
+                        rb = RestrictionBatch(' '.join(data[with_i+1:]).split(","))
+                    test = rb.search(t)
+                    for a,b in test.items():
+                        st.success("%s %s" %(a,b))
+                else: 
+                    rb = AllEnzymes.search(t)
+                    for a,b in rb.items():
+                        if len(b) != 0:
+                            st.success("%s %s" %(a,b))
 
 def prot_gene_seq(protein,tax_id,tax):
   r = get_url(f"{WEBSITE_API}/uniprotkb/search?query=(protein_name:{protein}) AND (taxonomy_id:{tax_id})&fields=gene_names", headers={"Accept": "text/plain; format=tsv"})
@@ -400,6 +482,7 @@ if(st.button('Submit')):
     seq_i = try_except('sequence',data) 
     prim_i = try_except('primers',data) #add primers -> cloning (look pydna)
     for_i = try_except('for',data)
+    res_i = try_except('restriction',data)
     global tab1,tab2,tab3
     tab1, tab2, tab3 = st.tabs(["Result-only", "Step-by-step", "Article"])
     
@@ -465,11 +548,27 @@ if(st.button('Submit')):
             protein = data[0]
             if data[prim_i] == data[-1]:
                 ncbiprot_seq(protein,"",d1,d2,"primer") 
-            if data[prim_i+1] == "with":
+            elif data[-1] == "overhang":
+                # option of custom size and custom aminoacids
+                ncbiprot_seq(protein,"",d1,d2,"over_primer")
+                # work on over_primer
+            elif data[prim_i+1] == "with":
                 ncbiprot_seq(protein,"",d1,d2,"res_primer")
+            
         # add overhang    
         elif data[prim_i-1] == "gene":
             st.success("gene primers")
+    elif res_i != -1:
+        seq_i = res_i # make common variable independent from seq_i/res_i, etc.
+        n,d1,d2 = partial(2)
+        if data[res_i-1] == "protein":
+            protein = data[0]
+            # create resulted sequences
+            # gel restriction (use example of 'coding sequence')
+            if res_i == len(data)-1:
+                ncbiprot_seq(protein,"",d1,d2,"res_all")
+            else:
+                ncbiprot_seq(protein,"",d1,d2,"res")    
             
     else:
         st.error("No result")
