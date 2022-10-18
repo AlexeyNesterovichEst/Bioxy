@@ -11,7 +11,7 @@ if option == "Sequence": # search by name, GenBank accession number
     c1.subheader("Gene sequence")
     c1.write("[taxon] [GENE NAME] (start-end) sequence")
     c1.markdown("*Example: human MAGEA10 1-10 sequence*")
-    #c1.text("")
+    c1.text("")
     #c1.write("[taxon] [Gene name] (start-end) gene sequence")
     #c1.markdown("*Example: human Dmbt1 1-100 gene sequence*")
     #c1.text("")
@@ -23,7 +23,7 @@ if option == "Sequence": # search by name, GenBank accession number
     c2.subheader("Protein sequence")
     c2.write("[taxon] [Protein name] (start-end) protein sequence")
     c2.markdown("*Example: human Melanoma-associated antigen 10 1-10 protein sequence*")
-    
+    c2.text("")
     c2.write("[GenBank accession number] (start-end) protein sequence")
     c2.markdown("*Example: NP_066386.3 1-10 protein sequence*")
     
@@ -65,6 +65,22 @@ if option == "Restriction":
     c8.subheader("Protein coding sequence specific restrictases with sites")
     c8.write("[GenBank accession number] (start-end) protein restriction with [restrictase 1] (, ... , restrictase n)")
     c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
+    
+    c9 = st.container()
+    c9.subheader("Protein coding sequence restriction sequence specific restrictases with sites")
+    c9.write("[GenBank accession number] (start-end) protein restriction sequence with [restrictase 1] (, ... , restrictase n)")
+    c9.markdown("*Example: NP_066386.3 1-100 protein restriction sequence with BseMII , UnbI*")
+    
+    c10 = st.container()
+    c10.subheader("Protein coding sequence restriction gel specific restrictases with sites")
+    c10.write("[GenBank accession number] (start-end) protein restriction gel with [restrictase 1] (, ... , restrictase n)")
+    c10.markdown("*Example: NP_066386.3 1-100 protein restriction gel with AcsI*")
+    #c11 = st.container()
+    #c11.subheader("Protein coding sequence restriction map specific restrictases with sites")
+    #c11.write("[GenBank accession number] (start-end) protein restriction map with [restrictase 1] (, ... , restrictase n)")
+    #c11.markdown("*Example: NP_066386.3 1-100 protein restriction map with BseMII , UnbI*")
+    
+    #restriction control (option to upload Restrictases library.txt)
     
 if option == "Cloning":
     st.info("In progress")
