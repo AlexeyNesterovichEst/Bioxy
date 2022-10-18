@@ -57,12 +57,13 @@ if option == "Primers":
     
 if option == "Restriction":
     c7 = st.container()
-    c7.subheader("Protein coding sequence all restrictases with sites")
+    c7.header("Protein coding sequence")
+    c7.subheader("all restrictases with sites")
     c7.write("[GenBank accession number] (start-end) protein restriction")
     c7.markdown("*Example: NP_066386.3 1-100 protein restriction*")
     
     c8 = st.container()
-    c8.subheader("Protein coding sequence specific restrictases with sites")
+    c8.subheader("specific restrictases with sites")
     c8.write("[GenBank accession number] (start-end) protein restriction with [restrictase 1] (, ... , restrictase n)")
     c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
     
