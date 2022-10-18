@@ -68,12 +68,12 @@ if option == "Restriction":
     c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
     
     c9 = st.container()
-    c9.subheader("Restriction sequence specific restrictases with sites")
+    c9.subheader("Restriction sequences for specific restrictases with sites")
     c9.write("[GenBank accession number] (start-end) protein restriction sequence with [restrictase 1] (, ... , restrictase n)")
     c9.markdown("*Example: NP_066386.3 1-100 protein restriction sequence with BseMII , UnbI*")
     
     c10 = st.container()
-    c10.subheader("Restriction gel specific restrictases with sites")
+    c10.subheader("Restriction gel for specific restrictases with sites")
     c10.write("[GenBank accession number] (start-end) protein restriction gel with [restrictase 1] (, ... , restrictase n)")
     c10.markdown("*Example: NP_066386.3 1-100 protein restriction gel with AcsI*")
     #c11 = st.container()
