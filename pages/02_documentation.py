@@ -58,26 +58,26 @@ if option == "Primers":
 if option == "Restriction":
     c7 = st.container()
     c7.header("Protein coding sequence")
-    c7.subheader("all restrictases with sites")
+    c7.subheader("All restrictases with sites")
     c7.write("[GenBank accession number] (start-end) protein restriction")
     c7.markdown("*Example: NP_066386.3 1-100 protein restriction*")
     
     c8 = st.container()
-    c8.subheader("specific restrictases with sites")
+    c8.subheader("Specific restrictases with sites")
     c8.write("[GenBank accession number] (start-end) protein restriction with [restrictase 1] (, ... , restrictase n)")
     c8.markdown("*Example: NP_066386.3 1-100 protein restriction with BseMII , UnbI*")
     
     c9 = st.container()
-    c9.subheader("Protein coding sequence restriction sequence specific restrictases with sites")
+    c9.subheader("Restriction sequence specific restrictases with sites")
     c9.write("[GenBank accession number] (start-end) protein restriction sequence with [restrictase 1] (, ... , restrictase n)")
     c9.markdown("*Example: NP_066386.3 1-100 protein restriction sequence with BseMII , UnbI*")
     
     c10 = st.container()
-    c10.subheader("Protein coding sequence restriction gel specific restrictases with sites")
+    c10.subheader("Restriction gel specific restrictases with sites")
     c10.write("[GenBank accession number] (start-end) protein restriction gel with [restrictase 1] (, ... , restrictase n)")
     c10.markdown("*Example: NP_066386.3 1-100 protein restriction gel with AcsI*")
     #c11 = st.container()
-    #c11.subheader("Protein coding sequence restriction map specific restrictases with sites")
+    #c11.subheader("Restriction map specific restrictases with sites")
     #c11.write("[GenBank accession number] (start-end) protein restriction map with [restrictase 1] (, ... , restrictase n)")
     #c11.markdown("*Example: NP_066386.3 1-100 protein restriction map with BseMII , UnbI*")
     
