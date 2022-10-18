@@ -601,7 +601,8 @@ if(st.button('Submit')):
         if data[res_i-1] == "protein":
             protein = data[0]
         if seq_i == -1:
-            #if gel_i != -1:
+            if gel_i != -1:
+              st.success("gel")
                 #if wit_i == -1 or wit_i == len(data) -1:
                     #st.warning("please add restrictases")
                 #else:
