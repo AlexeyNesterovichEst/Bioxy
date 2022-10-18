@@ -6,7 +6,7 @@ from pydna.dseqrecord import Dseqrecord
 from pydna.seqrecord import SeqRecord
 from pydna import tm
 from pydna.design import primer_design
-from pydna.gel import gel
+#from pydna.gel import gel
 from pydna.ladders import GeneRuler_1kb
 from Bio.Seq import Seq
 from Bio.Restriction import *
@@ -484,8 +484,8 @@ def ncbiprot_seq(prot_term,tax_sci,d1,d2,opt): #optimise
                     if opt != "res_gel":
                         st.success(at)
                         st.success(len(att))
-                    else:
-                        st.image(gel([GeneRuler_1kb,a_att]))
+                    #else:
+                        #st.image(gel([GeneRuler_1kb,a_att]))
                      
 def prot_gene_seq(protein,tax_id,tax):
   r = get_url(f"{WEBSITE_API}/uniprotkb/search?query=(protein_name:{protein}) AND (taxonomy_id:{tax_id})&fields=gene_names", headers={"Accept": "text/plain; format=tsv"})
@@ -601,11 +601,11 @@ if(st.button('Submit')):
         if data[res_i-1] == "protein":
             protein = data[0]
         if seq_i == -1:
-            if gel_i != -1:
-                if wit_i == -1 or wit_i == len(data) -1:
-                    st.warning("please add restrictases")
-                else:
-                    ncbiprot_seq(protein,"",d1,d2,"res_gel")
+            #if gel_i != -1:
+                #if wit_i == -1 or wit_i == len(data) -1:
+                    #st.warning("please add restrictases")
+                #else:
+                    #ncbiprot_seq(protein,"",d1,d2,"res_gel")
             else:
                 if res_i == len(data)-1:
                     ncbiprot_seq(protein,"",d1,d2,"res_all") #make in alphabetic order
