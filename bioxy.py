@@ -6,7 +6,7 @@ from pydna.dseqrecord import Dseqrecord
 from pydna.seqrecord import SeqRecord
 from pydna import tm
 from pydna.design import primer_design
-#from pydna.gel import gel
+from pydna.gel import gel
 from pydna.ladders import GeneRuler_1kb
 from Bio.Seq import Seq
 from Bio.Restriction import *
