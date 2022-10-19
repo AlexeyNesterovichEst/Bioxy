@@ -15,7 +15,6 @@ from gensim.models import Word2Vec
 # used for text scraping
 from bs4 import BeautifulSoup
 import requests
-from urllib.parse import urlparse
 
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
