@@ -106,6 +106,15 @@ if scrapebutton:
     st.session_state['sentences'] = []
     page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
     parser = BeautifulSoup(page.text, 'html.parser')
+    text = str(parser)
+    st.success(path_template.format(i, page_size,plasmid))
+    for line in text.split('\n'):
+      if '<div class="col-xs-10">#' in line:
+                line = line.strip()
+                ## example: <div class ="col-xs-10" >  # 107251</div>
+                id = line.split('#')[1].split('</div>')[0]
+                a_id.append(id)
+    st.success(a_id[0])
     list_of_attributes = {"class": "copy-from form-control"}
     tags = parser.findAll('textarea', attrs=list_of_attributes)
     for tag in tags:
