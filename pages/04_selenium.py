@@ -107,7 +107,7 @@ if scrapebutton:
     page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
     parser = BeautifulSoup(page.text, 'html.parser')
     text = str(parser)
-    st.success(path_template.format(i, page_size,plasmid))
+    st.success(page)
     for line in text.split('\n'):
       if '<div class="col-xs-10">#' in line:
                 line = line.strip()
