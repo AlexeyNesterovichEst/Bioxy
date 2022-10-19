@@ -110,11 +110,11 @@ if scrapebutton:
     text = str(parser)
     #st.success(text)
     for line in text.split('\n'):
-    if '<div class="col-xs-10">#' in line:
-       line = line.strip()
-       ## example: <div class ="col-xs-10" >  # 107251</div>
-       id = line.split('#')[1].split('</div>')[0]
-       a_id.append(id)
+        if '<div class="col-xs-10">#' in line:
+           line = line.strip()
+           ## example: <div class ="col-xs-10" >  # 107251</div>
+           id = line.split('#')[1].split('</div>')[0]
+           a_id.append(id)
     st.success(a_id[0])
     for url in urls:
         st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
