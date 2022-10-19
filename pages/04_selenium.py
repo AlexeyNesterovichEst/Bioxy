@@ -98,8 +98,6 @@ st.markdown('Enter a Web Url below and start scraping all visual texts from that
 max_links = st.slider('Maximum number of links to follow', 0, 100, 1)
 scraping_url = st.text_area('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
 
-scrapebutton = st.button('Start scraping')
-
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
@@ -125,9 +123,3 @@ for tag in tags:
     lines = lines[1:]
     dna = ('').join(lines).strip()
     st.success(dna.upper())
-
-if scrapebutton:
-    st.session_state['url_scrape_stats'] = []
-    urls = scraping_url.splitlines()
-    st.session_state['sentences'] = []
-    
