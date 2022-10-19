@@ -10,7 +10,6 @@ path = path_template.format(plasmid)
 page = requests.get(path)
 parser = BeautifulSoup(page.text, 'html.parser')
 text = str(parser)
-#st.success(text)
 for line in text.split('\n'):
     if '<div class="col-xs-10">#' in line:
        line = line.strip()
