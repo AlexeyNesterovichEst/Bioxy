@@ -38,7 +38,7 @@ def show_selenium_log():
 def run_selenium():
     name = str()
     with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
-        url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
+        url = "http://www.addgene.org/48097/sequences/"
         driver.get(url)
         xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
         # Wait for the element to be rendered:
