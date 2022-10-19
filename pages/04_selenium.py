@@ -1,16 +1,6 @@
 #https://github.com/wolfgangB33r/ai-text-model-studio/blob/main/src/app.py
 import streamlit as st
 import streamlit.components.v1 as components
-import numpy as np
-import pandas as pd
-import os
-import pickle
-import base64
-#text libraries
-import re
-from time import time  # To time our operations
-
-from gensim.models import Word2Vec
 
 # used for text scraping
 from bs4 import BeautifulSoup
