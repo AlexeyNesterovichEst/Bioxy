@@ -1,12 +1,15 @@
+#working without selenium
 import requests
 from bs4 import BeautifulSoup
 path_template = 'http://addgene.org/search/catalog/plasmids/?page_number={}&page_size={}&q={}'
 total_page = 1
 page_size = 10
 plasmid = "pqm"
-page = requests.get(path_template.format(i, page_size,plasmid))
+path = path_template.format(total_page, page_size,plasmid)
+page = requests.get(path)
 parser = BeautifulSoup(page.text, 'html.parser')
 text = str(parser)
+print(path_template.format(i, page_size,plasmid))
 for line in text.split('\n'):
   if '<div class="col-xs-10">#' in line:
             line = line.strip()
