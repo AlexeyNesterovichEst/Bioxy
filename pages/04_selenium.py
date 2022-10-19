@@ -9,8 +9,6 @@ import base64
 import re
 from time import time  # To time our operations
 
-from gensim.models import Word2Vec
-
 # used for text scraping
 from bs4 import BeautifulSoup
 import requests
@@ -24,9 +22,6 @@ def inject(tag):
             new_str = str[:idx] + tag + str[idx:]
             with open(os.path.dirname(st.__file__) + "/static/index.html", 'w') as file:
                 file.write(new_str)
-
-st.session_state['stopwords'] = {'also', 'often', 'may', 'use', 'within', 'ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours', 'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than'} 
-st.session_state['ignore_stop_words'] = True
 
 def text_to_words(raw_text, remove_stopwords=True):
     # 1. Remove non-letters, but including numbers
@@ -96,19 +91,6 @@ st.subheader('Web text scraping')
 st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
 max_links = st.slider('Maximum number of links to follow', 0, 100, 1)
 scraping_url = st.text_area('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
-
-st.subheader('Text cleaning')
-ignore_stop_words = st.checkbox('Ignore stopwords?', value = True)
-if ignore_stop_words:
-    st.session_state['ignore_stop_words'] = ignore_stop_words
-
-stop_word_text = st.text_area('Stopwords', 'must, much, us, could, would, also, often, may, use, within, ourselves, hers, between, yourself, but, again, there, about, once, during, out, very, having, with, they, own, an, be, some, for, do, its, yours, such, into, of, most, itself, other, off, is, s, am, or, who, as, from, him, each, the, themselves, until, below, are, we, these, your, his, through, don, nor, me, were, her, more, himself, this, down, should, our, their, while, above, both, up, to, ours, had, she, all, no, when, at, any, before, them, same, and, been, have, in, will, on, does, yourselves, then, that, because, what, over, why, so, can, did, not, now, under, he, you, herself, has, just, where, too, only, myself, which, those, i, after, few, whom, t, being, if, theirs, my, against, a, by, doing, it, how, further, was, here, than')
-if stop_word_text:
-    a = stop_word_text.split(',')
-    ca = []
-    for i in a:
-        ca.append(i.strip())
-    st.session_state['stopwords'] = set(ca)
 
 scrapebutton = st.button('Start scraping')
     
