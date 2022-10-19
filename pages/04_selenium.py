@@ -158,9 +158,3 @@ if trainbutton:
 
 st.subheader('Evaluate the trained model')
 st.markdown('Find the top-100 most similar words to the given word below.')
-test_word = st.text_input('Check most similar words for', 'sister')
-if test_word:
-    if 'model' in st.session_state:
-        if test_word.lower() in st.session_state['model'].wv:
-            similar = st.session_state['model'].wv.most_similar(positive=[test_word.lower()], topn=100)
-            st.dataframe(similar)
