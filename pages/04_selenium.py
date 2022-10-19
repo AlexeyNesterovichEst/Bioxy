@@ -60,33 +60,7 @@ def fill_scrape_stats(url, result):
     if 'url_scrape_stats' in st.session_state:
         print({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
         st.session_state['url_scrape_stats'].append({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
-
-def crawler(url, maxurls, pages_crawled):
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-    result = extract_visible_text(soup)
-    fill_scrape_stats(url, result)
-    
-    # now follow links
-    links = soup.find_all('a')
-
-    for link in links:
-        if 'href' in link.attrs:
-            if not link['href'].startswith('http'):
-                link['href'] = "https://" + urlparse(url).netloc.lower() + link['href']
-
-            if link['href'] not in pages_crawled:
-                pages_crawled.append(link['href'])
-                try:
-                    if len(pages_crawled) < maxurls: # stop condition of maximum number of crawled pages
-                        print(link['href'])
-                        # only follow links within the same domain as the crawler was called for
-                        if link['href'].lower().find(urlparse(url).netloc.lower()) != -1: 
-                            result.extend(crawler(link['href'], maxurls, pages_crawled))
-                except:
-                    continue   
-    return result
-
+        
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
