@@ -105,7 +105,7 @@ if scrapebutton:
     urls = scraping_url.splitlines()
     st.session_state['sentences'] = []
     page = requests.get("http://www.addgene.org/48097/sequences/")
-    parser = BeautifulSoup(page, "lxml")
+    parser = BeautifulSoup(page.text, 'html.parser')
     list_of_attributes = {"class": "copy-from form-control"}
     tags = parser.findAll('textarea', attrs=list_of_attributes)
     for url in urls:
