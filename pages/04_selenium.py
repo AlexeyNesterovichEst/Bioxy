@@ -105,8 +105,9 @@ if scrapebutton:
     urls = scraping_url.splitlines()
     st.session_state['sentences'] = []
     page = requests.get("http://www.addgene.org/48097/sequences/")
-    
-    st.success(page.content)
+    parser = BeautifulSoup(page, "lxml")
+    list_of_attributes = {"class": "copy-from form-control"}
+    tags = parser.findAll('textarea', attrs=list_of_attributes)
     for url in urls:
         st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
         print(len(st.session_state['sentences']))
