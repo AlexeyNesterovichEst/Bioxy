@@ -4,4 +4,3 @@ numpy
 requests
 scipy
 selenium
-requests_html
