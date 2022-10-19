@@ -29,38 +29,6 @@ def inject(tag):
 st.session_state['stopwords'] = {'also', 'often', 'may', 'use', 'within', 'ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours', 'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than'} 
 st.session_state['ignore_stop_words'] = True
 
-def text_to_words(raw_text, remove_stopwords=True):
-    # 1. Remove non-letters, but including numbers
-    letters_only = re.sub("[^0-9a-zA-Z]", " ", raw_text)
-    # 2. Convert to lower case, split into individual words
-    words = letters_only.lower().split()
-    if remove_stopwords:
-        stops = st.session_state['stopwords'] # In Python, searching a set is much faster than searching
-        meaningful_words = [w for w in words if not w in stops] # Remove stop words
-        words = meaningful_words
-    return words 
-
-def extract_visible_text(soup):
-    result = []
-    visible_text = soup.getText()
-    sentences = visible_text.splitlines()
-    for sentence in sentences:
-        words = text_to_words(sentence, remove_stopwords=st.session_state['ignore_stop_words'])
-        if len(words) > 5:
-            result.append(words)
-    return result
-
-def fill_scrape_stats(url, result):
-    word_count = 0
-    char_count = 0
-    for s in result:
-        word_count = word_count + len(s)
-        for w in s:
-            char_count = char_count + len(w)
-    if 'url_scrape_stats' in st.session_state:
-        print({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
-        st.session_state['url_scrape_stats'].append({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
-        
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
