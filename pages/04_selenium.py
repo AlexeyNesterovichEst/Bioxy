@@ -87,8 +87,6 @@ def crawler(url, maxurls, pages_crawled):
                     continue   
     return result
 
-inject('<script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/148709fdc4b/bf74387hfy/3111aefc2c2c3580_complete.js" crossorigin="anonymous"></script>')    
-
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
