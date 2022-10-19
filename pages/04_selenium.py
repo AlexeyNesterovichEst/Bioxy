@@ -1,10 +1,12 @@
 #https://github.com/wolfgangB33r/ai-text-model-studio/blob/main/src/app.py
 import streamlit as st
-
 from bs4 import BeautifulSoup
 import requests
 
 a_id = []
+plasmid = "pqm"
+path_tamplete = "http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q={}"
+path = path_template.format(plasmid)
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
 text = str(parser)
