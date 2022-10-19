@@ -105,6 +105,7 @@ if scrapebutton:
     urls = scraping_url.splitlines()
     st.session_state['sentences'] = []
     page = requests.get("https://dataquestio.github.io/web-scraping-pages/simple.html")
+    st.success(page.content)
     for url in urls:
         st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
         print(len(st.session_state['sentences']))
