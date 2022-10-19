@@ -129,11 +129,3 @@ if scrapebutton:
         lines = lines[1:]
         dna = ('').join(lines).strip()
         st.success(dna.upper())
-    for url in urls:
-        st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
-        print(len(st.session_state['sentences']))
-    if 'url_scrape_stats' in st.session_state:
-        df = st.dataframe(st.session_state['url_scrape_stats'])
-    base64_str = base64.b64encode(str(st.session_state['sentences']).encode('utf-8')).decode()
-    href = f'<a href="data:file/output_model;base64,{base64_str}" download="sentences.txt">Download scraped sentences as JSON file</a>'
-    st.markdown(href, unsafe_allow_html=True)
