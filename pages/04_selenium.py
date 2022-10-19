@@ -125,14 +125,3 @@ if scrapebutton:
     base64_str = base64.b64encode(str(st.session_state['sentences']).encode('utf-8')).decode()
     href = f'<a href="data:file/output_model;base64,{base64_str}" download="sentences.txt">Download scraped sentences as JSON file</a>'
     st.markdown(href, unsafe_allow_html=True)
-	
-
-st.subheader('Train word2vec')
-vector_size = st.slider('Embedding vector size of each word', 0, 500, 100)
-window_size = st.slider('Word window size (5 e.g.: means two words before and two words after the input word are taken into account)', 0, 10, 5)
-
-def download_model(model):
-    output_model = pickle.dumps(model)
-    b64 = base64.b64encode(output_model).decode()
-    href = f'<a href="data:file/output_model;base64,{b64}" download="myfile.pkl">Download trained model .pkl File</a>'
-    st.markdown(href, unsafe_allow_html=True)
