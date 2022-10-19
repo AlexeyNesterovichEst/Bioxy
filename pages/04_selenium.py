@@ -116,6 +116,19 @@ if scrapebutton:
            id = line.split('#')[1].split('</div>')[0]
            a_id.append(id)
     st.success(a_id[0])
+    path_template = 'http://www.addgene.org/{}/sequences/'
+    path = path_template.format(a_id[0])
+    page = requests.get(path)
+    parser = BeautifulSoup(page.text, 'html.parser')
+    list_of_attributes = {"class": "copy-from form-control"}
+    tags = parser.findAll('textarea', attrs=list_of_attributes)
+    for tag in tags:
+        tag = tag.text
+        lines = tag.split('\n')
+        ref = lines[0].strip()
+        lines = lines[1:]
+        dna = ('').join(lines).strip()
+        st.success(dna.upper())
     for url in urls:
         st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
         print(len(st.session_state['sentences']))
