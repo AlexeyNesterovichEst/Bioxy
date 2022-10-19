@@ -104,7 +104,8 @@ if scrapebutton:
     st.session_state['url_scrape_stats'] = []
     urls = scraping_url.splitlines()
     st.session_state['sentences'] = []
-    page = requests.get("https://dataquestio.github.io/web-scraping-pages/simple.html")
+    page = requests.get("http://www.addgene.org/48097/sequences/")
+    
     st.success(page.content)
     for url in urls:
         st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
