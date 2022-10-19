@@ -16,7 +16,7 @@ for line in text.split('\n'):
             ## example: <div class ="col-xs-10" >  # 107251</div>
             id = line.split('#')[1].split('</div>')[0]
             a_id.append(id)
-print(a_id[0])
+st.success(a_id[0])
 
 path_template = 'http://www.addgene.org/{}/sequences/'
 
@@ -36,4 +36,4 @@ for tag in tags:
     ref = lines[0].strip()
     lines = lines[1:]
     dna = ('').join(lines).strip()
-    print(dna.upper())
+    st.success(dna.upper())
