@@ -122,14 +122,6 @@ if scrapebutton:
         print(len(st.session_state['sentences']))
     if 'url_scrape_stats' in st.session_state:
         df = st.dataframe(st.session_state['url_scrape_stats'])
-    base64_str = base64.b64encode(str(st.session_state['sentences']).encode('utf-8')).decode()
-    href = f'<a href="data:file/output_model;base64,{base64_str}" download="sentences.txt">Download scraped sentences as JSON file</a>'
-    st.markdown(href, unsafe_allow_html=True)
-	
-
-st.subheader('Train word2vec')
-vector_size = st.slider('Embedding vector size of each word', 0, 500, 100)
-window_size = st.slider('Word window size (5 e.g.: means two words before and two words after the input word are taken into account)', 0, 10, 5)
 
 def download_model(model):
     output_model = pickle.dumps(model)
@@ -156,8 +148,6 @@ if trainbutton:
     else:
         st.markdown('Start with text scraping first.')
 
-st.subheader('Evaluate the trained model')
-st.markdown('Find the top-100 most similar words to the given word below.')
 test_word = st.text_input('Check most similar words for', 'sister')
 if test_word:
     if 'model' in st.session_state:
