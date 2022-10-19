@@ -136,25 +136,3 @@ def download_model(model):
     b64 = base64.b64encode(output_model).decode()
     href = f'<a href="data:file/output_model;base64,{b64}" download="myfile.pkl">Download trained model .pkl File</a>'
     st.markdown(href, unsafe_allow_html=True)
-
-trainbutton = st.button('Start training')
-if trainbutton:
-    if 'sentences' in st.session_state:
-        # Initialize and train the model (this will take some time)
-        model = Word2Vec(vector_size=vector_size, window=window_size, min_count=1, workers=4)
-        model.build_vocab(st.session_state['sentences'], progress_per=10000)
-        t = time()
-        model.train(st.session_state['sentences'], total_examples=model.corpus_count, epochs=1, report_delay=1)
-        st.session_state['model'] = model
-        print('Time to train the model: {} mins'.format(round((time() - t) / 60, 2)))
-        print(len(model.wv))
-        #print(model.wv.most_similar(positive=["metric"]))
-        #model.save("./model/word2vec.model")
-        download_model(model)
-        model_info = f'Word2vec model vocabulary size: **{len(model.wv)}**'
-        st.markdown(model_info)
-    else:
-        st.markdown('Start with text scraping first.')
-
-st.subheader('Evaluate the trained model')
-st.markdown('Find the top-100 most similar words to the given word below.')
