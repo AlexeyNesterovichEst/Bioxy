@@ -89,15 +89,6 @@ def crawler(url, maxurls, pages_crawled):
 
 inject('<script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/148709fdc4b/bf74387hfy/3111aefc2c2c3580_complete.js" crossorigin="anonymous"></script>')    
 
-st.title('Text Scraping and Model Studio')
-
-st.markdown('Data application for scraping Web texts from given Urls for the purpose of training word embedding models. Source at [GitHub](https://github.com/wolfgangB33r/ai-text-model-studio), read the companion [blog](https://www.smartlab.at/web-text-scraping-and-ai-model-training-with-streamlit/).')
-
-st.subheader('Web text scraping')
-st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
-max_links = st.slider('Maximum number of links to follow', 0, 100, 1)
-scraping_url = st.text_area('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
-
 a_id = []
 page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
 parser = BeautifulSoup(page.text, 'html.parser')
