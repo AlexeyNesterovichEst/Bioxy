@@ -1,8 +1,6 @@
 #https://github.com/wolfgangB33r/ai-text-model-studio/blob/main/src/app.py
 import streamlit as st
-import streamlit.components.v1 as components
 
-# used for text scraping
 from bs4 import BeautifulSoup
 import requests
 
