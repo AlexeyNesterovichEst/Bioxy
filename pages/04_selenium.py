@@ -7,7 +7,7 @@ a_id = []
 plasmid = "pqm"
 path_template = "http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q={}"
 path = path_template.format(path_template)
-page = requests.get("http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q=pqm")
+page = requests.get(path)
 parser = BeautifulSoup(page.text, 'html.parser')
 text = str(parser)
 #st.success(text)
