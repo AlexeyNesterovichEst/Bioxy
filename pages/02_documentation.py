@@ -24,7 +24,7 @@ if option == "Sequence": # search by name, GenBank accession number
     c3.markdown("*Example: pQM plasmid sequence*")
     c3.text("")
     c3.write("[AddGene plasmid id] plasmid sequence")
-    c3.markdown("48097 plasmid sequence")
+    c3.markdown("*Example: 48097 plasmid sequence*")
  
     c2 = st.container()
     c2.subheader("Protein sequence")
