@@ -1,17 +1,15 @@
 import streamlit as st
-import pydna
+import pydna, requests, sys, itertools
 from Bio import Entrez, SeqIO
-import requests, sys #
+from Bio.Seq import Seq
+from Bio.Restriction import *
 from pydna.dseqrecord import Dseqrecord
 from pydna.seqrecord import SeqRecord
 from pydna import tm
 from pydna.design import primer_design
 from pydna.gel import gel
 from pydna.ladders import GeneRuler_1kb
-from Bio.Seq import Seq
-from Bio.Restriction import *
-import itertools
-
+from bs4 import BeautifulSoup
 
 
 # combine gene and prot_term_query
@@ -522,6 +520,7 @@ if(st.button('Submit')):
     res_i = try_except('restriction',data)
     gel_i = try_except('gel',data)
     wit_i = try_except('with',data)
+    pla_i = try_except('plasmid',data)
     global tab1,tab2,tab3
     tab1, tab2, tab3 = st.tabs(["Result-only", "Step-by-step", "Article"])
     
@@ -565,8 +564,80 @@ if(st.button('Submit')):
             
         elif data[seq_i-1] == "plasmid":
             n,d1,d2 = partial(2,seq_i)
-            st.success('plasmid_seq')
-            
+            a_id = []
+            a_pla = []
+            plasmid = data[0]
+            #beautifulsoup vs text.search
+            #make function for below
+            if plasmid.isdigit() == False:
+                path_template = "http://addgene.org/search/catalog/plasmids/?page_number=1&page_size=10&q={}"
+                path = path_template.format(plasmid)
+                page = requests.get(path)
+                parser = BeautifulSoup(page.text, 'html.parser')
+                text = str(parser)
+                #st.success(text)
+                n = 0
+                for line in text.split('\n'):
+                    #st.success(line)
+                    if '<div class="col-xs-10">#' in line:
+                       lin = line.strip()
+                       ## example: <div class ="col-xs-10" >  # 107251</div>
+                       id = lin.split('#')[1].split('</div>')[0]
+                       a_id.append(id)
+                    if line == '<h3 class="search-result-title">':
+                        n += 1
+                    if n > 0:
+                        n += 1
+                    if n == 4:
+                        n = 0
+                        start = line.find(">")
+                        finish = line[start:].find("<")
+                        pla = line[start+1:start+finish]
+                        a_pla.append(pla)
+                path_template = 'http://www.addgene.org/{}/sequences/'
+                # find name 
+                for p,i in zip(a_pla,a_id):
+                    path = path_template.format(i)
+                    page = requests.get(path)
+                    parser = BeautifulSoup(page.text, 'html.parser')
+                    text = str(parser)
+                    list_of_attributes = {"class": "copy-from form-control"}
+                    tags = parser.findAll('textarea', attrs=list_of_attributes)
+                    tag = tags[0].text
+                    lines = tag.split('\n')
+                    ref = lines[0].strip()
+                    lines = lines[1:]
+                    dna = ('').join(lines).strip()
+                    with tab1:
+                        with st.expander("%s (%s)" % (p,i)):
+                            html_string = '<a href=http://www.addgene.org/%s/sequences/><img alt="%s" src="https://static.addgene.org/addgene-core/4df3f5733a/images/common/svg/logo-addgene.svg" width="100" ></a>' % (i,p)
+                            st.markdown(html_string, unsafe_allow_html=True)
+                            st.code(dna.upper())
+                            st.code(i)
+            elif plasmid.isdigit() == True:
+                path_template = 'http://www.addgene.org/{}/sequences/'
+                path = path_template.format(plasmid)
+                page = requests.get(path)
+                parser = BeautifulSoup(page.text, 'html.parser')
+                text = str(parser)
+                for line in text.split('\n'):
+                    #st.success(line)
+                    if "<title>Addgene:" in line:
+                        lin = line.strip()
+                        li = lin.split(' ')
+                        name = li[1]
+                list_of_attributes = {"class": "copy-from form-control"}
+                tags = parser.findAll('textarea', attrs=list_of_attributes)
+                tag = tags[0].text
+                lines = tag.split('\n')
+                ref = lines[0].strip()
+                lines = lines[1:]
+                dna = ('').join(lines).strip()
+                with tab1:
+                    with st.expander("%s (%s)" % (name,plasmid)):
+                        html_string = '<a href=http://www.addgene.org/%s/sequences/><img alt="%s" src="https://static.addgene.org/addgene-core/4df3f5733a/images/common/svg/logo-addgene.svg" width="100" ></a>' % (plasmid,name)
+                        st.markdown(html_string, unsafe_allow_html=True)
+                        st.code(dna.upper())
         else: # check d1 to be [0] instead of [1] if 1
             n,d1,d2 = partial(2,seq_i)
             if hum_i == -1:
@@ -602,10 +673,11 @@ if(st.button('Submit')):
             protein = data[0]
         if seq_i == -1:
             if gel_i != -1:
-              if wit_i == -1 or wit_i == len(data) -1:
-                  st.warning("please add restrictases")
-              else:
-                  ncbiprot_seq(protein,"",d1,d2,"res_gel")
+                if wit_i == -1 or wit_i == len(data) -1:
+                    st.warning("please add restrictases")
+                else:
+                    #automatic ladder option (look through ladder parameters)
+                    ncbiprot_seq(protein,"",d1,d2,"res_gel")
             else:
                 if res_i == len(data)-1:
                     ncbiprot_seq(protein,"",d1,d2,"res_all") #make in alphabetic order
