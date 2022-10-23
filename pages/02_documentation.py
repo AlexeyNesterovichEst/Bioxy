@@ -4,7 +4,7 @@ import streamlit as st
 # first
 st.title("Documentation")
 st.info("[compulsory] & (optional) parameters")
-option = st.selectbox('Please choose the topic', ('Sequence', 'Primers', 'Restriction', 'Cloning'))
+option = st.selectbox('Please choose the topic', ('Sequence', 'Primers', 'Restriction', 'Ligation', 'Cloning'))
 
 if option == "Sequence": # search by name, GenBank accession number
     c1 = st.container()
@@ -18,6 +18,13 @@ if option == "Sequence": # search by name, GenBank accession number
     c1.write("[GenBank accession number of gene] (start-end) gene sequence")
     c1.markdown("*Example: NM_021048.5 1-10 gene sequence*")
     
+    c3 = st.container()
+    c3.subheader("Plasmid sequence")
+    c3.write("[Plasmid name] plasmid sequence") # add (start-end)
+    c3.markdown("*Example: pQM plasmid sequence*")
+    c3.text("")
+    c3.write("[AddGene plasmid id] plasmid sequence")
+    c3.markdown("48097 plasmid sequence")
  
     c2 = st.container()
     c2.subheader("Protein sequence")
@@ -75,12 +82,16 @@ if option == "Restriction":
     c10.subheader("Restriction gel for specific restrictases with sites")
     c10.write("[GenBank accession number of protein] (start-end) protein restriction gel with [restrictase 1] (, ... , restrictase n)")
     c10.markdown("*Example: NP_066386.3 protein restriction gel with AcsI*")
+    
     #c11 = st.container()
     #c11.subheader("Restriction map specific restrictases with sites")
     #c11.write("[GenBank accession number] (start-end) protein restriction map with [restrictase 1] (, ... , restrictase n)")
     #c11.markdown("*Example: NP_066386.3 1-100 protein restriction map with BseMII , UnbI*")
     
     #restriction control (option to upload Restrictases library.txt)
+
+if option == "Ligation":
+    st.info("In progress")
     
 if option == "Cloning":
     st.info("In progress")
