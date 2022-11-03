@@ -496,8 +496,8 @@ def prot_gene_seq(protein,tax_id,tax):
 def primers():
     return
 
-st.title('Essequery')
-st.subheader('bioinformatics virtual assistant')
+st.title('MoreClo')
+st.subheader('Cloning design virtual assistant')
 
 # Text Input
 # save the input text in the variable 'name'
